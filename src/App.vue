@@ -10,12 +10,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   </head>
   <body data-bs-theme=light :style="`font-family: '${fontName}'`">
     <div class="container-fluid py-4" :class="`${noPadding ? 'p-0' : ''}`">
-      <div class="row">
+      <div class="pb-4 row">
         <Select
           class="col col-xl-6"
           @domain-change="(newDomain) => domain = newDomain"
           @search-term-change="(changedTerm) => searchTerm = changedTerm"
         />
+        <h4 class="col text-end"><b>{{ filteredDatasets?.length }} Datasets</b></h4>
       </div>
       <div class="pt-4">
         <div class="row g-4">
