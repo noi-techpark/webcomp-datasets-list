@@ -7,11 +7,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div class="dataset-card d-flex flex-column h-100 rounded-2 overflow-hidden bg-white shadow">
     <div class="ratio ratio-16x9 position-relative">
-      <!--  <img
+      <img
         :src="imageSrc"
         class="w-100"
-      />  -->
-      <Placeholder />
+      />
       <a
         class="dataset-card-link d-none d-lg-flex justify-content-center align-items-center gap-2 position-absolute h-100 text-decoration-none cursor-pointer"
         :href="`${databrowserBase}/dataset-overview/${dataset.Id}`"
@@ -74,7 +73,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { Dataset } from "../types";
-import Placeholder from "./Placeholder.vue";
+import Placeholder from "../assets/img/placeholder.png";
 import IconExternal from "./IconExternal.vue";
 import { computed } from "vue";
 
@@ -83,7 +82,7 @@ const { dataset } = defineProps<{
 }>();
 
 // TODO: Change this once rudi has added the field
-// const imageSrc = "";
+const imageSrc = Placeholder;
 
 const recordCount = computed(() => {
   if (dataset.RecordCount?.open == null || !dataset.RecordCount?.closed == null) return null;
