@@ -36,6 +36,13 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
 
+      - name: Create .env file
+        uses: noi-techpark/github-actions/env-file@v2
+        env:
+          X_VITE_API_BASE: https://api.tourism.testingmachine.eu
+          X_VITE_API_VERSION: v1
+          X_VITE_DATABROWSER_BASE: https://databrowser.opendatahub.testingmachine.eu
+
       - name: NPM build
         uses: noi-techpark/github-actions/npm-build@v2
         with:
@@ -56,6 +63,13 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
+
+      - name: Create .env file
+        uses: noi-techpark/github-actions/env-file@v2
+        env:
+          X_VITE_API_BASE: https://tourism.api.opendatahub.com
+          X_VITE_API_VERSION: v1
+          X_VITE_DATABROWSER_BASE: https://databrowser.opendatahub.com
 
       - name: NPM build
         uses: noi-techpark/github-actions/npm-build@v2
