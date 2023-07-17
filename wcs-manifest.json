@@ -1,0 +1,72 @@
+{
+  "title": "Datasets List",
+  "description": "A web component to display a list of all datasets available through the metadata API. It also provides filtering by domain.",
+  "descriptionAbstract": "List of all datasets available through the metadata API",
+  "shortName": "datasets-list",
+  "license": "AGPL-3.0-or-later",
+  "repositoryUrl": "https://github.com/noi-techpark/webcomp-datasets-list.git",
+  "copyrightHolders": [
+    {
+      "name": "NOI",
+      "email": "digital@noi.bz.it",
+      "organization": "NOI AG/SpA Südtirol - Alto Adige",
+      "organizationUrl": "https://noi.bz.it"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Henri Egger",
+      "email": "h.egger@noi.bz.it",
+      "organization": "NOI AG",
+      "organizationUrl": "https://noi.bz.it"
+    }
+  ],
+  "image": "wcs-logo.png",
+  "searchTags": [
+    "list"
+  ],
+  "dist": {
+    "basePath": "dist",
+    "files": [
+      "datasets-list-widget.min.js"
+    ],
+    "scripts": [
+      {
+        "file": "datasets-list-widget.min.js",
+        "parameter": ""
+      }
+    ]
+  },
+  "configuration": {
+    "tagName": "datasets-list-widget",
+    "options": [
+      {
+        "key": "font-url",
+        "type": "text",
+        "label": "URL to a valid font css file",
+        "required": false,
+        "options": {
+          "default": "https://fonts.testingmachine.eu/open-sans/style.css"
+        }
+      },
+      {
+        "key": "font-name",
+        "type": "text",
+        "label": "Name of the font loaded from the font URL",
+        "required": false,
+        "options": {
+          "default": "Open Sans"
+        }
+      },
+      {
+        "key": "no-padding",
+        "type": "null",
+        "label": "Disable padding around the web component",
+        "required": false,
+        "options": {
+          "default": false
+        }
+      }
+    ]
+  }
+}
