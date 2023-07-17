@@ -1,4 +1,5 @@
-<svg
+<template>
+  <svg
     width="76"
     height="56"
     viewBox="0 0 76 56"
@@ -146,3 +147,4 @@
       </clipPath>
     </defs>
   </svg>
+</template>
