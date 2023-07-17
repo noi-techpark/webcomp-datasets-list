@@ -40,6 +40,7 @@ import { computed, ref } from 'vue';
 import { Dataset } from './types';
 import DatasetCard from "./components/DatasetCard.vue";
 import Select from './components/Select.vue';
+import { fetchMetadata, withParents, sorted, apiBase, apiVersion } from "./api";
 
 const {
   fontUrl,
@@ -66,48 +67,22 @@ fetch(fontUrl)
   ];
 });
 
-const apiBaseEnv = import.meta.env.VITE_API_BASE as string;
-const apiBase = apiBaseEnv.endsWith("/")
-  ? apiBaseEnv.slice(0, -1)
-  : apiBaseEnv;
-
-const apiVersionEnv = import.meta.env.VITE_API_VERSION as string;
-const apiVersion = apiVersionEnv.endsWith("/")
-  ? apiVersionEnv.slice(0, -1)
-  : apiVersionEnv;
-
-const apiUrl = `${apiBase}/${apiVersion}/MetaData?pagesize=1000&origin=webcomp-datasets-list`
-
 const datasets = ref<Dataset[]>();
 
-fetch(apiUrl)
-.then((res) => res.json())
-.then((json: { Items: Dataset[] }) => {
-  const rootDatasets = json.Items.reduce<Record<string, Dataset>>(
-    (prev, dataset) => {
-      if (dataset.ApiFilter.length === 0) {
-        const key = dataset.PathParam.join('/');
-        return { ...prev, [key]: dataset };
-      }
-      return prev;
-    },
-    {}
-  );
+const params = [
+  "pagesize=1000",
+  "origin=webcomp-datasets-list"
+];
 
-  const withParents = json.Items.map((dataset) => {
-    if (dataset.ApiFilter.length === 0) {
-      return dataset;
-    }
-    const key = dataset.PathParam.join('/');
-    const parent = rootDatasets[key];
-    return { ...dataset, Parent: parent };
-  });
-
-  const sorted = withParents.sort((a, b) => a.Shortname < b.Shortname ? -1 : 1);
-  
-  datasets.value = sorted;
-})
-.catch((err) => console.error(err));
+fetchMetadata(
+  apiBase,
+  apiVersion,
+  params,
+  [sorted, withParents]
+)
+.then((data) => {
+  datasets.value = data;
+});
 
 const domain = ref("all");
 const searchTerm = ref<string>("");

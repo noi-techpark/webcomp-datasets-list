@@ -81,6 +81,7 @@ import { Dataset } from "../types";
 import Placeholder from "../assets/img/placeholder.png";
 import IconExternal from "./IconExternal.vue";
 import { computed } from "vue";
+import { databrowserBase } from "../api";
 
 const { dataset } = defineProps<{
   dataset: Dataset;
@@ -105,10 +106,5 @@ const ApiDescription = computed(() => {
     return dataset.ApiDescription.en;
   }
 })
-
-const databrowserBaseEnv = import.meta.env.VITE_DATABROWSER_BASE as string;
-const databrowserBase = databrowserBaseEnv.endsWith("/")
-  ? databrowserBaseEnv.slice(0, -1)
-  : databrowserBaseEnv;
 
 </script>
