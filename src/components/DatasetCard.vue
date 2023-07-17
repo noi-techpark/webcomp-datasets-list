@@ -65,9 +65,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </div>
         </div>
       </div>
-      <div class="align-self-start d-lg-none d-flex justify-content-center align-items-center gap-2 btn btn-primary bg-black border-0">
+      <a
+        :href="`${databrowserBase}/dataset-overview/${dataset.Id}`"
+        target="_blank"
+        class="align-self-start d-lg-none d-flex justify-content-center align-items-center gap-2 btn btn-primary bg-black border-0"
+      >
         <span>Open in Databrowser</span><IconExternal sm />
-      </div>
+      </a>
     </div>
   </div>
 </template>
