@@ -72,7 +72,7 @@ const apiVersion = apiVersionEnv.endsWith("/")
   ? apiVersionEnv.slice(0, -1)
   : apiVersionEnv;
 
-const apiUrl = `${apiBase}/${apiVersion}/MetaData?pagesize=1000`
+const apiUrl = `${apiBase}/${apiVersion}/MetaData?pagesize=1000&origin=webcomp-datasets-list`
 
 const datasets = ref<Dataset[]>();
 
