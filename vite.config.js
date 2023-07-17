@@ -15,7 +15,7 @@ export default defineConfig({
     assetsInlineLimit: 512000,
     rollupOptions: {
       output: {
-        entryFileNames: "wcs-list-widget.min.js"
+        entryFileNames: "datasets-list-widget.min.js"
       }
     }
   }
