@@ -11,6 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <Select
           class="col col-xl-6"
           @domain-change="(newDomain) => domain = newDomain"
+          @search-term-change="(changedTerm) => searchTerm = changedTerm"
         />
       </div>
       <div class="pt-4">
@@ -105,14 +106,35 @@ fetch(apiUrl)
 .catch((err) => console.error(err));
 
 const domain = ref("all");
+const searchTerm = ref<string>("");
 
 const filteredDatasets = computed(() => {
-  if (domain.value === "all") {
-    return datasets.value;
-  } else {
-    return datasets.value?.filter((dataset) => dataset.BaseUrl.includes(domain.value))
-  }
+  const byDomain = filterByDomain(datasets.value ?? [], domain.value);
+  const byTerm = filterByTerm(byDomain, searchTerm.value);
+  return byTerm;
 })
+
+function filterByDomain(datasets: Dataset[], domain: string): Dataset[] {
+  if (domain === "all") {
+    return datasets;
+  } else {
+    return datasets.filter((dataset) => dataset.BaseUrl.includes(domain))
+  }
+}
+
+function filterByTerm(datasets: Dataset[], searchTerm: string): Dataset[] {
+  if (searchTerm.length > 0) {
+    return datasets.filter((dataset) => {
+      const titleIncludesTerm = dataset.Shortname.toLowerCase().includes(searchTerm.toLowerCase());
+      const descriptionIncludesTerm = dataset.ApiDescription?.en.toLowerCase().includes(searchTerm.toLowerCase());
+      return titleIncludesTerm || descriptionIncludesTerm;
+    })
+  } else {
+    return datasets;
+  }
+}
+
+
 </script>
 
 <style lang="scss">

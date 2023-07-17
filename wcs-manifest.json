@@ -1,6 +1,6 @@
 {
   "title": "Datasets List",
-  "description": "A web component to display a list of all datasets available through the metadata API. It also provides filtering by domain.",
+  "description": "A web component to display a list of all datasets available through the metadata API. It also provides filtering by by search term or domain.",
   "descriptionAbstract": "List of all datasets available through the metadata API",
   "shortName": "datasets-list",
   "license": "AGPL-3.0-or-later",
