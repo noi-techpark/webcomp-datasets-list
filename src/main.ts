@@ -4,7 +4,6 @@
 
 import { defineCustomElement } from 'vue';
 import DatasetsList from './App.vue';
-import * as bootstrap from "bootstrap";
 
 const DatasetsListCE = defineCustomElement(DatasetsList);
 
