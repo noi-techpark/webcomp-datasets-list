@@ -37,10 +37,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { Dataset } from './types';
+import { Dataset } from './ts/types';
 import DatasetCard from "./components/DatasetCard.vue";
 import Select from './components/Select.vue';
-import { fetchMetadata, withParents, sorted, apiBase, apiVersion } from "./api";
+import { fetchMetadata, withParents, sorted, apiBase, apiVersion } from "./ts/api";
 
 const {
   fontUrl,
@@ -119,3 +119,4 @@ function filterByTerm(datasets: Dataset[], searchTerm: string): Dataset[] {
 <style lang="scss">
 @import "./scss/styles.scss";
 </style>
+./ts/api./ts/types

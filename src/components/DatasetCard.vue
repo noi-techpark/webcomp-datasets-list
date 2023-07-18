@@ -77,11 +77,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { Dataset } from "../types";
+import { Dataset } from "../ts/types";
 import Placeholder from "../assets/img/placeholder.png";
 import IconExternal from "./IconExternal.vue";
 import { computed } from "vue";
-import { databrowserBase } from "../api";
+import { databrowserBase } from "../ts/api";
 
 const { dataset } = defineProps<{
   dataset: Dataset;
