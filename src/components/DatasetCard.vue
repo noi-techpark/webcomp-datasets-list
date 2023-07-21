@@ -44,19 +44,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               {{ dataset.Sources.join(", ") }}
             </strong>
           </div>
-          <div>
-            Deprecated: 
-            <strong>
-              {{ dataset.Deprecated }}
-            </strong>
-          </div>
-          <div v-if="dataset.Output">
-            Output:
-            <strong>
-              {{ dataset.Output?.default }}
-            </strong>
-            {{ Object.values(dataset.Output ?? {}).length > 1 ? "..." : "" }}
-          </div>
           <div v-if="recordCount != null">
             Records: 
             <strong>
