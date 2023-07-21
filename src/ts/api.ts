@@ -61,6 +61,10 @@ export function withParents(datasets: Dataset[]): Dataset[] {
   return withParents;
 }
 
+export function withoutDeprecated(datasets: Dataset[]): Dataset[] {
+  return datasets.filter((dataset) => !dataset.Deprecated);
+}
+
 export function sorted(datasets: Dataset[]): Dataset[] {
   return datasets.sort((a, b) => a.Shortname < b.Shortname ? -1 : 1);
 }

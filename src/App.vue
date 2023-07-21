@@ -40,7 +40,7 @@ import { computed, ref } from 'vue';
 import { Dataset } from './ts/types';
 import DatasetCard from "./components/DatasetCard.vue";
 import Select from './components/Select.vue';
-import { fetchMetadata, withParents, sorted, apiBase, apiVersion } from "./ts/api";
+import { fetchMetadata, withParents, sorted, withoutDeprecated, apiBase, apiVersion } from "./ts/api";
 
 const {
   fontUrl,
@@ -75,7 +75,7 @@ fetchMetadata(
   apiBase,
   apiVersion,
   params,
-  [sorted, withParents]
+  [sorted, withParents, withoutDeprecated]
 )
 .then((data) => {
   datasets.value = data;
