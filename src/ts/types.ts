@@ -5,6 +5,11 @@
 export interface Dataset {
   Id: string;
 
+  ImageGallery: [
+    {
+      ImageUrl: number;
+    }
+  ];
   Shortname: string;
   ApiDescription: { en: string };
 
@@ -18,7 +23,7 @@ export interface Dataset {
   RecordCount: {
     open: number;
     closed: number;
-  }
+  };
 
   Parent?: Dataset;
 }
