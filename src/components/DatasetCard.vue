@@ -74,7 +74,13 @@ const { dataset } = defineProps<{
   dataset: Dataset;
 }>();
 
-// TODO: Change this once rudi has added the field
+/* TODO: Once Rudi has added the field to the Meta Data Datasets:
+* - Add the field which contains the image url to the Dataset interface declared in src/ts/types.ts
+* - Change the following line to use the image url if it exists and the placeholder image if not.
+*   Example where field is called imageUrl:
+*   const imageSrc = dataset.imageUrl ?? Placeholder;
+*/
+
 const imageSrc = Placeholder;
 
 const recordCount = computed(() => {
