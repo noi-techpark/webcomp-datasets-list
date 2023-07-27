@@ -76,10 +76,7 @@ const { dataset } = defineProps<{
 }>();
 
 const imageSrc = computed(() => {
-  if (!dataset || !dataset.ImageGallery || dataset.ImageGallery.length === 0) {
-    return Placeholder;
-  }
-  return dataset.ImageGallery[0].ImageUrl;
+  return dataset?.ImageGallery?.[0]?.ImageUrl || Placeholder;
 });
 
 const recordCount = computed(() => {
