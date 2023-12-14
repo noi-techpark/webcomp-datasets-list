@@ -10,12 +10,14 @@ export interface Dataset {
       ImageUrl: number;
     }
   ];
+
   Shortname: string;
   ApiDescription: { en: string };
 
   ApiFilter: string[];
   PathParam: string[];
   BaseUrl: string;
+  DataProvider: string[];
 
   Output: { default: string };
   Sources: string[];

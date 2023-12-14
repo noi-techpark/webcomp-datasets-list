@@ -39,10 +39,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </div>
       <div class="d-none d-lg-flex row">
         <div class="col-12">
-          <div v-if="dataset.Sources" class="w-100 text-truncate">
-            Sources:
+          <div v-if="dataset.DataProvider" class="w-100 text-truncate">
+            Data Provider:
             <strong>
-              {{ dataset.Sources.join(", ") }}
+              {{ dataset.DataProvider.join(", ") }}
             </strong>
           </div>
           <div v-if="recordCount != null">
