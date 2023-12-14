@@ -75,8 +75,10 @@ const { dataset } = defineProps<{
   dataset: Dataset;
 }>();
 
-const imageSrc = computed(() => {
-  return dataset?.ImageGallery?.[0]?.ImageUrl || Placeholder;
+const imageSrc = computed<string | undefined>(() => {
+  const imageUrl = dataset?.ImageGallery?.[0]?.ImageUrl;
+  const placeholder = String(Placeholder);
+  return imageUrl !== undefined ? String(imageUrl) : placeholder;
 });
 
 const recordCount = computed(() => {
