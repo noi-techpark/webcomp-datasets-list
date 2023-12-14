@@ -5,24 +5,25 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="dataset-card d-flex flex-column h-100 rounded-2 overflow-hidden bg-white shadow">
+  <div
+    class="dataset-card d-flex flex-column h-100 rounded-2 overflow-hidden bg-white shadow"
+  >
     <div class="ratio ratio-16x9 position-relative">
-      <img
-        :src="imageSrc"
-        class="w-100"
-        alt="dataset-image"
-      />
+      <img :src="imageSrc" class="w-100" alt="dataset-image" />
       <a
         class="dataset-card-link d-none d-lg-flex justify-content-center align-items-center gap-2 position-absolute h-100 text-decoration-none cursor-pointer"
         :href="`${databrowserBase}/dataset-overview/${dataset.Id}`"
         target="_blank"
       >
-        <h4 class="m-0">Open in Databrowser</h4><IconExternal />
+        <h4 class="m-0">Open in Databrowser</h4>
+        <IconExternal />
       </a>
     </div>
     <div class="d-flex flex-column justify-content-between flex-grow-1 p-3">
       <div>
-        <h4><strong>{{ dataset.Shortname }}</strong></h4>
+        <h4>
+          <strong>{{ dataset.Shortname }}</strong>
+        </h4>
         <span v-if="dataset.Parent">
           <a
             class="text-reset d-flex align-items-center gap-1"
@@ -38,14 +39,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </div>
       <div class="d-none d-lg-flex row">
         <div class="col-12">
-          <div v-if="dataset.Sources" class="w-100 text-truncate">
-            Sources: 
+          <div v-if="dataset.DataProvider" class="w-100 text-truncate">
+            Data Provider:
             <strong>
-              {{ dataset.Sources.join(", ") }}
+              {{ dataset.DataProvider.join(", ") }}
             </strong>
           </div>
           <div v-if="recordCount != null">
-            Records: 
+            Records:
             <strong>
               {{ recordCount }}
             </strong>
@@ -74,13 +75,17 @@ const { dataset } = defineProps<{
   dataset: Dataset;
 }>();
 
-// TODO: Change this once rudi has added the field
-const imageSrc = Placeholder;
+const imageSrc = computed<string | undefined>(() => {
+  const imageUrl = dataset?.ImageGallery?.[0]?.ImageUrl;
+  const placeholder = String(Placeholder);
+  return imageUrl !== undefined ? String(imageUrl) : placeholder;
+});
 
 const recordCount = computed(() => {
-  if (dataset.RecordCount?.open == null || !dataset.RecordCount?.closed == null) return null;
+  if (dataset.RecordCount?.open == null || !dataset.RecordCount?.closed == null)
+    return null;
   return dataset.RecordCount.open + dataset.RecordCount.closed;
-})
+});
 
 const ApiDescription = computed(() => {
   const maxLen = 150;
@@ -92,6 +97,5 @@ const ApiDescription = computed(() => {
   } else {
     return dataset.ApiDescription.en;
   }
-})
-
+});
 </script>

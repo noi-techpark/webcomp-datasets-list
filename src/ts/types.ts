@@ -5,12 +5,19 @@
 export interface Dataset {
   Id: string;
 
+  ImageGallery: [
+    {
+      ImageUrl: number;
+    }
+  ];
+
   Shortname: string;
   ApiDescription: { en: string };
 
   ApiFilter: string[];
   PathParam: string[];
   BaseUrl: string;
+  DataProvider: string[];
 
   Output: { default: string };
   Sources: string[];
@@ -18,7 +25,7 @@ export interface Dataset {
   RecordCount: {
     open: number;
     closed: number;
-  }
+  };
 
   Parent?: Dataset;
 }
