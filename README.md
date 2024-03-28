@@ -9,7 +9,7 @@ SPDX-License-Identifier: CC0-1.0
 [![REUSE Compliance](https://github.com/noi-techpark/webcomp-datasets-list/actions/workflows/reuse.yml/badge.svg)](https://github.com/noi-techpark/odh-docs/wiki/REUSE#badges)
 
 This is a web component which displacs a list of all webcomponents available in the Web Component Store. It also provides filtering by search term or tags.
-
+ 
 - [Web Component List](#web-component-list)
   - [Usage](#usage)
     - [Attributes](#attributes)
