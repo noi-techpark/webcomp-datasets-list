@@ -75,7 +75,8 @@ fetchMetadata(
   apiBase,
   apiVersion,
   params,
-  [sorted, withParents, withoutDeprecated]
+  [sorted, withParents]
+  // Remove [withoutDeprecated] to add Deprecated datasets into the list of datasets 
 )
 .then((data) => {
   datasets.value = data;

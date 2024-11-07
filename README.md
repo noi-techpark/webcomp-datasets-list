@@ -20,7 +20,6 @@ This is a web component which displacs a list of all webcomponents available in 
     - [Source code](#source-code)
     - [Dependencies](#dependencies)
     - [Build](#build)
-  - [Tests and linting](#tests-and-linting)
   - [Deployment](#deployment)
   - [Run with docker](#run-with-docker)
     - [Installation](#installation)
@@ -32,8 +31,8 @@ This is a web component which displacs a list of all webcomponents available in 
     - [Support](#support)
     - [Contributing](#contributing)
     - [Documentation](#documentation)
-    - [Boilerplate](#boilerplate)
     - [License](#license)
+    - [REUSE](#reuse)
 
 ## Usage
 Include the webcomp script file `dist/datasets-list-widget.min.js` in your HTML and define the web component like this:
@@ -72,13 +71,13 @@ For a ready to use Docker environment with all prerequisites already installed a
 Get a copy of the repository:
 
 ```bash
-git clone https://github.com/noi-techpark/webcomp-wcs-list.git
+git clone https://github.com/noi-techpark/webcomp-datasets-list.git
 ```
 
 Change directory:
 
 ```bash
-cd webcomp-wcs-list/
+cd webcomp-datasets-list/
 ```
 
 ### Dependencies
