@@ -13,7 +13,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <div class="pb-lg-4 row gy-4 align-items-center">
         <Select
           class="col-12 col-xl-6"
-          @domain-change="(newDomain) => domain = newDomain"
+          :dataspaces="availableDataspaces"
+          @dataspace-change="(newDataspace) => selectedDataspace = newDataspace"
           @search-term-change="(changedTerm) => searchTerm = changedTerm"
         />
         <h4 class="col-12 col-xl-6 text-lg-end"><b>{{ filteredDatasets?.length }} Datasets</b></h4>
@@ -64,7 +65,10 @@ fetch(fontUrl)
   ];
 });
 
-const datasets = ref<Dataset[]>();
+const allDatasets = ref<Dataset[]>([]);
+const availableDataspaces = ref<string[]>([]);
+const selectedDataspace = ref<string>(""); // "" represents "All Dataspaces"
+const searchTerm = ref<string>("");
 
 const params = [
   "pagesize=1000",
@@ -79,38 +83,43 @@ fetchMetadata(
   // Remove [withoutDeprecated] to add Deprecated datasets into the list of datasets 
 )
 .then((data) => {
-  datasets.value = data;
+  allDatasets.value = data;
+
+  const dataspaces = new Set<string>();
+  data.forEach(dataset => {
+    if (typeof dataset.Dataspace === 'string' && dataset.Dataspace.trim() !== '') {
+      dataspaces.add(dataset.Dataspace.trim());
+    }
+  });
+  availableDataspaces.value = Array.from(dataspaces).sort();
 });
 
-const domain = ref("all");
-const searchTerm = ref<string>("");
-
 const filteredDatasets = computed(() => {
-  const byDomain = filterByDomain(datasets.value ?? [], domain.value);
-  const byTerm = filterByTerm(byDomain, searchTerm.value);
-  return byTerm;
+  let datasetsToFilter = allDatasets.value;
+  datasetsToFilter = filterByDataspace(datasetsToFilter, selectedDataspace.value);
+  datasetsToFilter = filterByTerm(datasetsToFilter, searchTerm.value);
+  return datasetsToFilter;
 })
 
-function filterByDomain(datasets: Dataset[], domain: string): Dataset[] {
-  if (domain === "all") {
+function filterByDataspace(datasets: Dataset[], dataspace: string): Dataset[] {
+  if (dataspace === "") {
     return datasets;
   } else {
-    return datasets.filter((dataset) => dataset.BaseUrl.includes(domain))
+    return datasets.filter((dataset) => dataset.Dataspace === dataspace);
   }
 }
 
-function filterByTerm(datasets: Dataset[], searchTerm: string): Dataset[] {
-  if (searchTerm.length > 0) {
-    return datasets.filter((dataset) => {
-      const titleIncludesTerm = dataset.Shortname.toLowerCase().includes(searchTerm.toLowerCase());
-      const descriptionIncludesTerm = dataset.ApiDescription?.en.toLowerCase().includes(searchTerm.toLowerCase());
-      return titleIncludesTerm || descriptionIncludesTerm;
-    })
-  } else {
+function filterByTerm(datasets: Dataset[], term: string): Dataset[] {
+  if (!term || term.trim().length === 0) {
     return datasets;
   }
+  const lowerCaseTerm = term.toLowerCase();
+  return datasets.filter((dataset) => {
+    const titleIncludesTerm = dataset.Shortname?.toLowerCase().includes(lowerCaseTerm);
+    const descriptionIncludesTerm = dataset.ApiDescription?.en?.toLowerCase().includes(lowerCaseTerm);
+    return titleIncludesTerm || descriptionIncludesTerm;
+  });
 }
-
 
 </script>
 
