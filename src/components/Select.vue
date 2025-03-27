@@ -6,7 +6,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div>
-    <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-4">
+    <!-- Wrap dropdown and search in one row -->
+    <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-4 align-items-lg-center">
       <!-- Dataspace Dropdown -->
       <div class="col-12 col-lg-4 position-relative">
         <select
@@ -38,19 +39,41 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         ></div>
       </div>
     </div>
+
+    <!-- Toggle on its own row -->
+    <div class="d-flex align-items-center gap-2 mt-3">
+      <!-- The toggle switch -->
+      <div class="toggle-switch">
+        <input
+          type="checkbox"
+          class="toggle-input"
+          id="deprecated-toggle"
+          :checked="deprecatedFilterActive"
+          @change="$emit('update:deprecatedFilterActive', ($event.target as HTMLInputElement).checked)"
+        />
+        <label for="deprecated-toggle" class="toggle-label"></label>
+      </div>
+      <!-- Text next to toggle -->
+      <label for="deprecated-toggle" class="mb-0" style="cursor: pointer;">
+        Deprecated
+      </label>
+    </div>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 
 const props = defineProps<{
   dataspaces: string[];
+  deprecatedFilterActive: boolean;
 }>();
 
 const emit = defineEmits<{
   dataspaceChange: [dataspace: string];
   searchTermChange: [searchTerm: string];
+  'update:deprecatedFilterActive': [value: boolean];
 }>()
 
 const selectedDataspace = ref<string>("");
