@@ -27,5 +27,6 @@ export interface Dataset {
     closed: number;
   };
 
+  Dataspace?: string | null;
   Parent?: Dataset;
 }

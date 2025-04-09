@@ -12,11 +12,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div class="container-fluid py-4">
       <div class="pb-lg-4 row gy-4 align-items-center">
         <Select
-          class="col-12 col-xl-6"
-          @domain-change="(newDomain) => domain = newDomain"
+          class="col-12"
+          :dataspaces="availableDataspaces"
+          v-model:deprecatedFilterActive="showOnlyDeprecated"
+          @dataspace-change="(newDataspace) => selectedDataspace = newDataspace"
           @search-term-change="(changedTerm) => searchTerm = changedTerm"
         />
-        <h4 class="col-12 col-xl-6 text-lg-end"><b>{{ filteredDatasets?.length }} Datasets</b></h4>
+        <h4 class="col-12 text-lg-end mt-3 mt-xl-0"><b>{{ filteredDatasets?.length }} Datasets</b></h4>
       </div>
       <div class="pt-4">
         <div class="row g-4">
@@ -40,7 +42,7 @@ import { computed, ref } from 'vue';
 import { Dataset } from './ts/types';
 import DatasetCard from "./components/DatasetCard.vue";
 import Select from './components/Select.vue';
-import { fetchMetadata, withParents, sorted, withoutDeprecated, apiBase, apiVersion } from "./ts/api";
+import { fetchMetadata, withParents, sorted, apiBase, apiVersion } from "./ts/api"; // Removed withoutDeprecated import as it's not used here
 
 const {
   fontUrl,
@@ -64,7 +66,11 @@ fetch(fontUrl)
   ];
 });
 
-const datasets = ref<Dataset[]>();
+const allDatasets = ref<Dataset[]>([]);
+const availableDataspaces = ref<string[]>([]);
+const selectedDataspace = ref<string>(""); // "" represents "All Dataspaces"
+const searchTerm = ref<string>("");
+const showOnlyDeprecated = ref<boolean>(false); // State for the deprecated toggle
 
 const params = [
   "pagesize=1000",
@@ -79,42 +85,55 @@ fetchMetadata(
   // Remove [withoutDeprecated] to add Deprecated datasets into the list of datasets 
 )
 .then((data) => {
-  datasets.value = data;
+  allDatasets.value = data;
+
+  const dataspaces = new Set<string>();
+  data.forEach(dataset => {
+    if (typeof dataset.Dataspace === 'string' && dataset.Dataspace.trim() !== '') {
+      dataspaces.add(dataset.Dataspace.trim());
+    }
+  });
+  availableDataspaces.value = Array.from(dataspaces).sort();
 });
 
-const domain = ref("all");
-const searchTerm = ref<string>("");
-
 const filteredDatasets = computed(() => {
-  const byDomain = filterByDomain(datasets.value ?? [], domain.value);
-  const byTerm = filterByTerm(byDomain, searchTerm.value);
-  return byTerm;
+  let datasetsToFilter = allDatasets.value;
+  datasetsToFilter = filterByDataspace(datasetsToFilter, selectedDataspace.value);
+  datasetsToFilter = filterByTerm(datasetsToFilter, searchTerm.value);
+  datasetsToFilter = filterByDeprecated(datasetsToFilter, showOnlyDeprecated.value);
+  return datasetsToFilter;
 })
 
-function filterByDomain(datasets: Dataset[], domain: string): Dataset[] {
-  if (domain === "all") {
+function filterByDataspace(datasets: Dataset[], dataspace: string): Dataset[] {
+  if (dataspace === "") {
     return datasets;
   } else {
-    return datasets.filter((dataset) => dataset.BaseUrl.includes(domain))
+    return datasets.filter((dataset) => dataset.Dataspace === dataspace);
   }
 }
 
-function filterByTerm(datasets: Dataset[], searchTerm: string): Dataset[] {
-  if (searchTerm.length > 0) {
-    return datasets.filter((dataset) => {
-      const titleIncludesTerm = dataset.Shortname.toLowerCase().includes(searchTerm.toLowerCase());
-      const descriptionIncludesTerm = dataset.ApiDescription?.en.toLowerCase().includes(searchTerm.toLowerCase());
-      return titleIncludesTerm || descriptionIncludesTerm;
-    })
+function filterByTerm(datasets: Dataset[], term: string): Dataset[] {
+  if (!term || term.trim().length === 0) {
+    return datasets;
+  }
+  const lowerCaseTerm = term.toLowerCase();
+  return datasets.filter((dataset) => {
+    const titleIncludesTerm = dataset.Shortname?.toLowerCase().includes(lowerCaseTerm);
+    const descriptionIncludesTerm = dataset.ApiDescription?.en?.toLowerCase().includes(lowerCaseTerm);
+    return titleIncludesTerm || descriptionIncludesTerm;
+  });
+}
+
+function filterByDeprecated(datasets: Dataset[], onlyDeprecated: boolean): Dataset[] {
+  if (onlyDeprecated) {
+    return datasets.filter((dataset) => dataset.Deprecated === true);
   } else {
     return datasets;
   }
 }
-
 
 </script>
 
 <style lang="scss">
 @import "./scss/styles.scss";
 </style>
-./ts/api./ts/types
